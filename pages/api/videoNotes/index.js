@@ -10,7 +10,6 @@ export default async (req, res) => {
     case "GET":
       try {
         const notes = await VideoNote.find({});
-
         res.status(200).json({ success: true, data: notes });
       } catch (error) {
         res.status(400).json({ success: false });
