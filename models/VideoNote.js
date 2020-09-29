@@ -1,27 +1,16 @@
 const mongoose = require("mongoose");
 
-const VideoNoteSchema = new mongoose.Schema({
+const NoteSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "Please add a title"],
-    trim: true,
-    maxlength: [40, "Max length 40 characters"],
-  },
-  link: {
-    type: String,
-    required: false,
-    trim: true,
+    maxlength: [40, "Title cannot be more than 40 characters"],
   },
   description: {
     type: String,
-    required: false,
-    maxlength: [400, "Max length is 400 characters"],
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    required: true,
+    maxlength: [200, "Description cannot be more than 200 characters"],
   },
 });
 
-module.exports =
-  mongoose.models.VideoNote || mongoose.model(VideoNote, VideoNoteSchema);
+module.exports = mongoose.models.Note || mongoose.model("Note", NoteSchema);
