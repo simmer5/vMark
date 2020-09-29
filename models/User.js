@@ -17,22 +17,22 @@ const UserSchema = new mongoose.Schema({
     type: String,
     minlength: [5, "Password must be min 5 characters"],
   },
-  // notes: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Note",
-  //   },
-  // ],
+  notes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Note",
+    },
+  ],
 });
 UserSchema.plugin(uniqueValidator);
-// UserSchema.set("toJSON", {
-//   transform: (document, returnedObject) => {
-//     returnedObject.id = returnedObject._id.toString();
-//     delete returnedObject._id;
-//     delete returnedObject.__v;
-//     // the passwordHash should not be revealed
-//     delete returnedObject.passwordHash;
-//   },
-//});
+UserSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+    // the passwordHash should not be revealed
+    //delete returnedObject.passwordHash;
+  },
+});
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);
