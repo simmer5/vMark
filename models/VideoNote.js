@@ -11,6 +11,7 @@ const NoteSchema = new mongoose.Schema({
     required: true,
     maxlength: [200, "Description cannot be more than 200 characters"],
   },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 module.exports = mongoose.models.Note || mongoose.model("Note", NoteSchema);
