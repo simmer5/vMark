@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     maxlength: [20, "Email cannot be more than 60 characters"],
     unique: true,
   },
-  passwordHash: {
+  password: {
     type: String,
     minlength: [5, "Password must be min 5 characters"],
   },
@@ -31,7 +31,7 @@ UserSchema.set("toJSON", {
     delete returnedObject._id;
     delete returnedObject.__v;
     // the passwordHash should not be revealed
-    //delete returnedObject.passwordHash;
+    //delete returnedObject.password;
   },
 });
 
