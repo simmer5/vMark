@@ -4,6 +4,7 @@
 
 import React from 'react'
 import Head from 'next/head'
+
 import Footer from '../components/Footer'
 
 import Avatar from '@material-ui/core/Avatar'
@@ -24,7 +25,7 @@ import Link from 'next/link'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
-		marginTop: theme.spacing(8),
+		marginTop: theme.spacing(2),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -54,6 +55,12 @@ const useStyles = makeStyles(theme => ({
 	timestamp: {
 		flexGrow: 0,
 	},
+	button: {
+		marginTop: theme.spacing(8),
+		alignSelf: 'flex-end',
+		boxShadow:
+			'0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)',
+	},
 }))
 
 export default function SignIn() {
@@ -66,6 +73,12 @@ export default function SignIn() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Container component='main' maxWidth='md'>
+				<Link href='/dashboard'>
+					<Button className={classes.button} variant='outlined' color='primary'>
+						Back
+					</Button>
+				</Link>
+
 				<CssBaseline />
 
 				<Paper className={classes.paper} elevation={5}>
