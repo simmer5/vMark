@@ -8,12 +8,17 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import Avatar from '@material-ui/core/Avatar'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
+import IconButton from '@material-ui/core/IconButton'
+import SearchIcon from '@material-ui/icons/Search'
+import InputLabel from '@material-ui/core/InputLabel'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import FormControl from '@material-ui/core/FormControl'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -43,6 +48,12 @@ const useStyles = makeStyles(theme => ({
 		flexWrap: 'wrap',
 		justifyContent: 'space-around',
 	},
+	margin: {
+		margin: theme.spacing(4),
+		width: '60%',
+		boxShadow:
+			'0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)',
+	},
 }))
 
 const Dashboard = () => {
@@ -70,6 +81,28 @@ const Dashboard = () => {
 					<Typography component='h1' variant='h5'>
 						Video marks
 					</Typography>
+
+					<FormControl fullWidth className={classes.margin} variant='outlined'>
+						<InputLabel htmlFor='outlined-adornment-amount'>Search</InputLabel>
+						<OutlinedInput
+							id='outlined-adornment-amount'
+							// value={values.amount}
+							// onChange={handleChange('amount')}
+							endAdornment={
+								<InputAdornment position='start'>
+									<IconButton
+										type='submit'
+										className={classes.iconButton}
+										aria-label='search'
+									>
+										<SearchIcon />
+									</IconButton>
+								</InputAdornment>
+							}
+							labelWidth={60}
+						/>
+					</FormControl>
+
 					<Container className={classes.container}>
 						<VideoCard id='V3XTz6xg9WE' start='120' />
 						<VideoCard id='V3XTz6xg9WE' start='120' />
