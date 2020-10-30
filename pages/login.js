@@ -55,7 +55,7 @@ export default function SignIn() {
 			[e.target.name]: e.target.value,
 		})
 	}
-	console.log('=====Login forma submitinta====', FormData)
+
 	return (
 		<>
 			<Head>
