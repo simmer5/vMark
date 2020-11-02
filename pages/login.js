@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import fetch from 'isomorphic-unfetch'
 import Head from 'next/head'
 import Footer from '../components/Footer'
 
@@ -11,7 +12,7 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Link from 'next/link'
 
@@ -42,13 +43,31 @@ export default function SignIn() {
 		email: '',
 		password: '',
 	})
+	const [message, setMessage] = useState('')
 
 	const { email, password } = FormData
 
-	const onSubmit = e => {
+	const handleLogin = async e => {
 		e.preventDefault()
-		console.log('=====Login forma submitinta====', FormData)
+		const resp = await fetch('http://localhost:3000/api/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				email: email,
+				password: password,
+			}),
+		})
+		const json = await resp.json()
+		console.log('Logas=======1=1=11', json.message)
+		setMessage(json.message)
+		setFormData({
+			email: '',
+			password: '',
+		})
 	}
+
 	const onChange = e => {
 		setFormData({
 			...FormData,
@@ -65,13 +84,14 @@ export default function SignIn() {
 			<Container component='main' maxWidth='xs'>
 				<CssBaseline />
 				<div className={classes.paper}>
+					{JSON.stringify(message)}
 					<Avatar className={classes.avatar}>
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component='h1' variant='h5'>
 						Sign in
 					</Typography>
-					<form className={classes.form} noValidate onSubmit={e => onSubmit(e)}>
+					<form className={classes.form} noValidate onSubmit={handleLogin}>
 						<TextField
 							value={email}
 							onChange={e => onChange(e)}

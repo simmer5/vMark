@@ -11,6 +11,7 @@ export default async (req, res) => {
 		case 'POST':
 			try {
 				const body = req.body
+				console.log('Cia gautas body requestas=============', body)
 				const saltRounds = 10
 				const user = await User.findOne({ email: body.email })
 				console.log('Cia ar useris surastas', user)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Footer from '../components/Footer'
 
@@ -6,8 +6,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
+
 import Link from 'next/link'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
@@ -39,6 +38,45 @@ const useStyles = makeStyles(theme => ({
 export default function SignUp() {
 	const classes = useStyles()
 
+	const [FormData, setFormData] = useState({
+		name: '',
+		email: '',
+		password: '',
+	})
+	const [message, setMessage] = useState('')
+
+	const { name, email, password } = FormData
+
+	const handleSignup = async e => {
+		e.preventDefault()
+		const resp = await fetch('http://localhost:3000/api/signup', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				name: name,
+				email: email,
+				password: password,
+			}),
+		})
+		const json = await resp.json()
+		console.log('Logas=======1=1=11', json)
+		setMessage(json)
+		setFormData({
+			name: '',
+			email: '',
+			password: '',
+		})
+	}
+
+	const onChange = e => {
+		setFormData({
+			...FormData,
+			[e.target.name]: e.target.value,
+		})
+	}
+
 	return (
 		<>
 			<Head>
@@ -48,39 +86,34 @@ export default function SignUp() {
 			<Container component='main' maxWidth='xs'>
 				<CssBaseline />
 				<div className={classes.paper}>
+					{JSON.stringify(message)}
 					<Avatar className={classes.avatar}>
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component='h1' variant='h5'>
 						Sign up
 					</Typography>
-					<form className={classes.form} noValidate>
+					<form className={classes.form} noValidate onSubmit={handleSignup}>
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={12}>
 								<TextField
+									value={name}
+									onChange={e => onChange(e)}
 									autoComplete='fname'
-									name='firstName'
+									name='name'
 									variant='outlined'
 									required
 									fullWidth
-									id='firstName'
+									id='name'
 									label='Name'
 									autoFocus
 								/>
 							</Grid>
-							{/* <Grid item xs={12} sm={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
-                />
-              </Grid> */}
+
 							<Grid item xs={12}>
 								<TextField
+									value={email}
+									onChange={e => onChange(e)}
 									variant='outlined'
 									required
 									fullWidth
@@ -92,6 +125,8 @@ export default function SignUp() {
 							</Grid>
 							<Grid item xs={12}>
 								<TextField
+									value={password}
+									onChange={e => onChange(e)}
 									variant='outlined'
 									required
 									fullWidth
