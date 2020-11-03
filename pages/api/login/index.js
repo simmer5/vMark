@@ -4,6 +4,7 @@ import cookie from 'cookie'
 
 import dbConnect from '../../../utils/dbConnect'
 import User from '../../../models/User'
+import authMidd from '../../../utils/authUser'
 
 export default async (req, res) => {
 	const { method } = req
