@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import cookie from 'cookie'
 
 import Footer from '../components/Footer'
 import VideoCard from '../components/Card'
@@ -19,6 +20,9 @@ import InputLabel from '@material-ui/core/InputLabel'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
+import { Router } from '@material-ui/icons'
+
+//import dbConnect from '../../../utils/dbConnect'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -56,8 +60,9 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const Dashboard = () => {
+const Dashboard = ({ data }) => {
 	const classes = useStyles()
+	console.log('Logas is propsu cia', data.data[0])
 
 	return (
 		<>
@@ -67,6 +72,7 @@ const Dashboard = () => {
 			</Head>
 
 			<Container className={classes.main} component='main' maxWidth='xl'>
+				{` ${data.data[0].title}`}
 				<Link href='/addnew'>
 					<Button className={classes.button} variant='outlined' color='primary'>
 						Add new video mark
@@ -118,5 +124,17 @@ const Dashboard = () => {
 		</>
 	)
 }
+export async function getServerSideProps(context) {
+	const cookies = cookie.parse(context.req.headers.cookie)
 
+	const res = await fetch(`http://localhost:3000/api/videonotes`, {
+		headers: {
+			cookie: 'auth=' + cookies.auth,
+		},
+	})
+	const data = await res.json()
+	return {
+		props: { data },
+	}
+}
 export default Dashboard

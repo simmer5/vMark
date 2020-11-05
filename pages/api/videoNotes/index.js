@@ -1,6 +1,7 @@
 import dbConnect from '../../../utils/dbConnect'
 import User from '../../../models/User'
 import Note from '../../../models/VideoNote'
+
 import { authenticatedUser } from '../../../utils/authUser'
 
 dbConnect()
@@ -23,7 +24,6 @@ export default async (req, res) => {
 			try {
 				const body = req.body
 				console.log('Cia gautas body', body)
-				//const user = await User.findById(body.userId)
 				const user = await User.findById(authUser)
 				console.log('user from note ruter', user)
 
