@@ -53,7 +53,7 @@ const Card = ({
 				//height='auto'
 				// src='https://www.youtube.com/embed/M7lc1UVf-VE?start=456'
 				src={`https://www.youtube.com/embed/${id}?start=${start}`}
-				frameborder='0'
+				frameBorder='0'
 				allowfullscreen='true'
 			/>
 			<Divider

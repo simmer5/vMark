@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/router'
+
 import fetch from 'isomorphic-unfetch'
 import Head from 'next/head'
 import Footer from '../components/Footer'
@@ -38,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
 	const classes = useStyles()
+	const router = useRouter()
 
 	const [FormData, setFormData] = useState({
 		email: '',
@@ -59,7 +62,10 @@ export default function SignIn() {
 				password: password,
 			}),
 		})
+		console.log('ka resp rodo', resp)
+		if (resp.ok) router.push('/dashboard')
 		const json = await resp.json()
+
 		console.log('Logas=======1=1=11', json.message)
 		setMessage(json.message)
 		setFormData({
@@ -67,6 +73,28 @@ export default function SignIn() {
 			password: '',
 		})
 	}
+
+	// const handleLogin = useCallback(e => {
+	// 	e.preventDefault()
+
+	// 	fetch('http://localhost:3000/api/login', {
+	// 		method: 'POST',
+	// 		headers: { 'Content-Type': 'application/json' },
+	// 		body: JSON.stringify({
+	// 			email: email,
+	// 			password: password,
+	// 		}),
+	// 	}).then(res => {
+	// 		// Do a fast client-side transition to the already prefetched dashboard page
+	// 		console.log('ka resp rodo', res)
+	// 		if (res.ok) router.push('/dashboard')
+	// 	})
+	// }, [])
+
+	useEffect(() => {
+		// Prefetch the dashboard page
+		router.prefetch('/dashboard')
+	}, [])
 
 	const onChange = e => {
 		setFormData({

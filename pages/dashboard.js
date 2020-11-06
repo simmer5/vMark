@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import cookie from 'cookie'
+import { useRouter } from 'next/router'
 
 import Footer from '../components/Footer'
 import VideoCard from '../components/Card'
@@ -20,7 +21,6 @@ import InputLabel from '@material-ui/core/InputLabel'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
-import { Router } from '@material-ui/icons'
 
 //import dbConnect from '../../../utils/dbConnect'
 
@@ -62,6 +62,8 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = ({ data }) => {
 	const classes = useStyles()
+	const Router = useRouter()
+
 	console.log('Logas is propsu cia', data.data[0])
 
 	return (
@@ -125,13 +127,19 @@ const Dashboard = ({ data }) => {
 	)
 }
 export async function getServerSideProps(context) {
-	const cookies = cookie.parse(context.req.headers.cookie)
-
+	if (!context.req.headers.cookie) {
+		context.res.writeHead(301, {
+			Location: 'http://localhost:3000/login',
+		})
+		context.res.end()
+	}
+	const cookies = await cookie.parse(context.req.headers.cookie)
 	const res = await fetch(`http://localhost:3000/api/videonotes`, {
 		headers: {
 			cookie: 'auth=' + cookies.auth,
 		},
 	})
+
 	const data = await res.json()
 	return {
 		props: { data },
