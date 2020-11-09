@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	button: {
 		alignSelf: 'flex-end',
-		marginTop: theme.spacing(8),
+		marginLeft: theme.spacing(2),
 		boxShadow:
 			'0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)',
 	},
@@ -58,13 +58,26 @@ const useStyles = makeStyles(theme => ({
 		boxShadow:
 			'0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)',
 	},
+	btnBox: {
+		display: 'inline-flex',
+		justifyContent: 'flex-end',
+	},
 }))
 
 const Dashboard = ({ data }) => {
 	const classes = useStyles()
-	const Router = useRouter()
+	const router = useRouter()
 
 	console.log('Logas is propsu cia', data.data[0])
+
+	const handelLogOut = async e => {
+		const res = await fetch(`http://localhost:3000/api/logout`, {
+			// headers: {
+			// 	cookie: 'auth=' + '',
+			// },
+		})
+		if (res.ok) router.push('/')
+	}
 
 	return (
 		<>
@@ -75,11 +88,26 @@ const Dashboard = ({ data }) => {
 
 			<Container className={classes.main} component='main' maxWidth='xl'>
 				{` ${data.data[0].title}`}
-				<Link href='/addnew'>
-					<Button className={classes.button} variant='outlined' color='primary'>
-						Add new video mark
+				<Box className={classes.btnBox}>
+					<Link href='/addnew'>
+						<Button
+							className={classes.button}
+							variant='outlined'
+							color='primary'
+						>
+							Add new video mark
+						</Button>
+					</Link>
+					<Button
+						className={classes.button}
+						onClick={e => handelLogOut()}
+						variant='outlined'
+						color='primary'
+					>
+						Logout
 					</Button>
-				</Link>
+				</Box>
+
 				<CssBaseline />
 
 				<Paper className={classes.paper} elevation={5}>

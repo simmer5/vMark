@@ -74,23 +74,6 @@ export default function SignIn() {
 		})
 	}
 
-	// const handleLogin = useCallback(e => {
-	// 	e.preventDefault()
-
-	// 	fetch('http://localhost:3000/api/login', {
-	// 		method: 'POST',
-	// 		headers: { 'Content-Type': 'application/json' },
-	// 		body: JSON.stringify({
-	// 			email: email,
-	// 			password: password,
-	// 		}),
-	// 	}).then(res => {
-	// 		// Do a fast client-side transition to the already prefetched dashboard page
-	// 		console.log('ka resp rodo', res)
-	// 		if (res.ok) router.push('/dashboard')
-	// 	})
-	// }, [])
-
 	useEffect(() => {
 		// Prefetch the dashboard page
 		router.prefetch('/dashboard')
