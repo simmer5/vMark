@@ -2,8 +2,9 @@
 //import styles from "../styles/Home.module.css";
 //import Footer from "../components/Footer";
 
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 import Footer from '../components/Footer'
 
@@ -65,6 +66,52 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
 	const classes = useStyles()
+	const router = useRouter()
+
+	const [newData, setNewData] = useState({
+		title: '',
+		link: '',
+		timestamp: '',
+		description: '',
+		//tags: [],
+	})
+	const [message, setMessage] = useState('')
+	const { title, link, timestamp, description } = newData
+
+	const onChange = e => {
+		setNewData({
+			...newData,
+			[e.target.name]: e.target.value,
+		})
+	}
+	const handleAddNew = async e => {
+		e.preventDefault()
+		console.log(newData)
+		const resp = await fetch('http://localhost:3000/api/videonotes', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				title: title,
+				link: link,
+				timestamp: timestamp,
+				description: description,
+			}),
+		})
+		console.log('ka resp rodo', resp)
+		if (resp.ok) router.push('/dashboard')
+		const json = await resp.json()
+
+		console.log('Logas=======1=1=11', json.message)
+		setMessage(json.message)
+		setNewData({
+			title: '',
+			link: '',
+			timestamp: 0,
+			description: '',
+		})
+	}
 
 	return (
 		<>
@@ -88,12 +135,10 @@ export default function SignIn() {
 					<Typography component='h1' variant='h5'>
 						Add new video mark
 					</Typography>
+					{`${message}`}
 					<form
 						className={classes.form}
-						onSubmit={e => {
-							e.preventDefault()
-							console.log('Form submited')
-						}}
+						onSubmit={e => handleAddNew(e)}
 						noValidate
 					>
 						<TextField
@@ -101,8 +146,10 @@ export default function SignIn() {
 							margin='normal'
 							required
 							fullWidth
+							onChange={e => onChange(e)}
 							label='Title'
 							name='title'
+							value={title}
 							autoComplete='title'
 							autoFocus
 							className={classes.title}
@@ -112,14 +159,18 @@ export default function SignIn() {
 								variant='outlined'
 								margin='normal'
 								required
+								onChange={e => onChange(e)}
 								label='Link'
 								name='link'
+								value={link}
 								className={classes.link}
 							/>
 							<TextField
 								variant='outlined'
 								margin='normal'
-								// name='time stamp'
+								onChange={e => onChange(e)}
+								name='timestamp'
+								value={timestamp}
 								label='Time stamp'
 								className={classes.timestamp}
 							/>
@@ -129,11 +180,13 @@ export default function SignIn() {
 							margin='normal'
 							fullWidth
 							label='Description'
+							onChange={e => onChange(e)}
 							name='description'
+							value={description}
 							autoComplete='description'
 							autoFocus
 							className={classes.description}
-							multiline='true'
+							multiline={true}
 							rows='6'
 						/>
 						<TextField
@@ -141,6 +194,8 @@ export default function SignIn() {
 							margin='normal'
 							fullWidth
 							name='tags'
+							// onChange={e => onChange(e)}
+							// value={tags}
 							label='Tags separated by comma'
 							className={classes.tags}
 						/>

@@ -34,13 +34,26 @@ export default async (req, res) => {
 				user.notes = user.notes.concat(note._id)
 				await user.save()
 
-				res.status(201).json({ success: true, data: note })
+				res.status(201).json({
+					success: true,
+					data: note,
+					message: 'New video link created successfuly!',
+				})
 			} catch (error) {
-				res.status(400).json({ success: false })
+				res.status(400).json({
+					success: false,
+					message: 'New video link not created. Kazkas susipiso.',
+				})
 			}
 			break
 		default:
-			res.status(400).json({ success: false })
+			res
+				.status(400)
+				.json({
+					success: false,
+					message:
+						'New video link not created. Kazkas susipiso. Msg is default.',
+				})
 			break
 	}
 }

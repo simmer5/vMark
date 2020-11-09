@@ -71,11 +71,7 @@ const Dashboard = ({ data }) => {
 	console.log('Logas is propsu cia', data.data[0])
 
 	const handelLogOut = async e => {
-		const res = await fetch(`http://localhost:3000/api/logout`, {
-			// headers: {
-			// 	cookie: 'auth=' + '',
-			// },
-		})
+		const res = await fetch(`http://localhost:3000/api/logout`)
 		if (res.ok) router.push('/')
 	}
 
@@ -87,7 +83,7 @@ const Dashboard = ({ data }) => {
 			</Head>
 
 			<Container className={classes.main} component='main' maxWidth='xl'>
-				{` ${data.data[0].title}`}
+				{`${data.data[0].title}`}
 				<Box className={classes.btnBox}>
 					<Link href='/addnew'>
 						<Button
