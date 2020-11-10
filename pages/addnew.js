@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export default function SignIn() {
+export default function addNew({ data }) {
 	const classes = useStyles()
 	const router = useRouter()
 
@@ -216,4 +216,18 @@ export default function SignIn() {
 			</Container>
 		</>
 	)
+}
+export async function getServerSideProps(context) {
+	if (!context.req.headers.cookie) {
+		context.res.writeHead(301, {
+			Location: 'http://localhost:3000/login',
+		})
+		context.res.end()
+	}
+
+	return {
+		props: {
+			status: null,
+		},
+	}
 }
